@@ -6,7 +6,7 @@ const NoteService = {
     return db.select('*').from('notes').where({id}).first();
   },
   updateNote(db, id, note) {
-    return this.getNote(db, id).update(note);
+    return db('notes').where({id}).update(note);
   },
   deleteNote(db, id) {
     return this.getNote(db, id).delete();
