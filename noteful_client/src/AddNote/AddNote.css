@@ -1,0 +1,17 @@
+.add-note-form {
+  padding: 20px;
+}
+
+.add-note-form h2,
+label {
+  color: #bdbdbd;
+}
+
+.add-note-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-note-inputs > * {
+  margin: 10px 0;
+}

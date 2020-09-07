@@ -4,7 +4,7 @@ const notesRoute = express.Router();
 const NoteService = require('./NoteService');
 
 notesRoute
-  .route('/note')
+  .route('/api/note')
   .get((req, res, next) => {
     NoteService.getAllNotes(req.app.get('db'))
       .then((result) => {
@@ -23,14 +23,14 @@ notesRoute
       .then((result) => {
         res
           .status(201)
-          .location(`/note/${result.id}`)
+          .location(`/api/note/${result.id}`)
           .json(result);
       })
       .catch(next);
   });
 
 notesRoute
-  .route('/note/:id')
+  .route('/api/note/:id')
   .all((req, res, next) => {
     NoteService.getNote(req.app.get('db'), req.params.id)
       .then((note) => {
@@ -43,12 +43,7 @@ notesRoute
       .catch(next);
   })
   .get((req, res, next) => {
-    const { id } = req.params;
-    NoteService.getNote(req.app.get('db'), id)
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch(next);
+    res.status(200).json(res.note);
   })
   .patch((req, res, next) => {
     const { name, description } = req.body;

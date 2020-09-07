@@ -38,19 +38,19 @@ describe('Notes testing', () => {
 
     it('retrieves all notes', () => {
       return supertest(app)
-      .get('/note')
+      .get('/api/note')
       .expect(200, testNotes);
     });
 
     it('retrieves a single note', () => {
       return supertest(app)
-      .get('/note/1')
+      .get('/api/note/1')
       .expect(200, testNotes[0]);
     });
 
     it('returns 404 when note doesn\'t exist', () => {
       return supertest(app)
-      .get('/note/5')
+      .get('/api/note/5')
       .expect(404, 'Note does not exist');
     });
 
@@ -66,12 +66,12 @@ describe('Notes testing', () => {
         folder: 1
       }
       return supertest(app)
-      .patch('/note/1')
+      .patch('/api/note/1')
       .send(newNote)
       .expect(204)
       .then(res =>
         supertest(app)
-          .get(`/note/${data.id}`)
+          .get(`/api/note/${data.id}`)
           .then(res => expect(() => {
             expect(data.name).to.eql(res.name);
             expect(data.description).to.eql(res.description);
@@ -86,7 +86,7 @@ describe('Notes testing', () => {
         name: 'whatever'
       };
       return supertest(app)
-      .patch('/note/6')
+      .patch('/api/note/6')
       .send(fake)
       .expect(404)
       .expect('Note does not exist');
@@ -94,11 +94,11 @@ describe('Notes testing', () => {
 
     it('deletes a note', () => {
       return supertest(app)
-      .delete('/note/1')
+      .delete('/api/note/1')
       .expect(204)
       .then(() => 
         supertest(app)
-        .get('/note/1')
+        .get('/api/note/1')
        .expect(404)
        .expect('Note does not exist'))
     });
@@ -112,20 +112,20 @@ describe('Notes testing', () => {
 
     it('allNotes retrieves empty array', () => {
       return supertest(app)
-      .get('/note')
+      .get('/api/note')
       .expect(200, []);
     });
 
     it('returns 404 when trying to access a note', () => {
       return supertest(app)
-      .get('/note/1')
+      .get('/api/note/1')
       .expect(404, 'Note does not exist');
     });
 
     it('puts a note in the database', () => {
         const note = makeNotesArray()[0];
         return supertest(app)
-        .post('/note')
+        .post('/api/note')
         .send(note)
         .expect(201)
         .expect(res => {
@@ -134,11 +134,11 @@ describe('Notes testing', () => {
           expect(res.body.folder).to.eql(note.folder);
           expect(res.body).to.have.property('date_modified');
           expect(res.body).to.have.property('id');
-          expect(res.headers.location).to.eql(`/note/${res.body.id}`);
+          expect(res.headers.location).to.eql(`/api/note/${res.body.id}`);
         })
         .then(res =>
           supertest(app)
-            .get(`/note/${res.body.id}`)
+            .get(`/api/note/${res.body.id}`)
             .expect(res.body)
         )
     });

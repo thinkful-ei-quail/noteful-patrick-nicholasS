@@ -1,0 +1,17 @@
+.add-folder-form {
+  padding: 20px;
+}
+
+.add-folder-form h2,
+label {
+  color: #bdbdbd;
+}
+
+.add-folder-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-folder-inputs > * {
+  margin: 10px 0;
+}
